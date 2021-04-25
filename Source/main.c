@@ -129,6 +129,7 @@ int main() {
 	int counter = 0 ;
 	bool flag = true ; //  выключен
 	bool fire = false; // мигать не мигать
+	int  litghtType =0; // смена режима подсветки
 ////////////////////////////////////////////////////
 // Инициализация аппаратной части контроллера  
   SysInit();   // Запускаем контроллер на нужной нам частоте (сейчас - 16МГц)
@@ -189,7 +190,8 @@ int main() {
     }
 		
 		if (fire){
-			
+			switch(litghtType){
+				case 0:
 			
 				if (tdlt(lighttime)<=300){
 					if (GGetPin(GREENLED)){
@@ -210,7 +212,7 @@ int main() {
 			  }
 				
 				if (tdlt(lighttime)>=800){
-					lighttime = getssec();
+ 					lighttime = getssec();
 					if (GGetPin(REDLED)){
 					GResetPin(REDLED);
 				}
@@ -218,61 +220,61 @@ int main() {
 					GSetPin(REDLED);
 				}
 			  }
+				break;
 				
-			
-			 /*
-			
-			if(tdlt(ledtimeG)==300){
-				ledtimeG=getssec();
-				if (GGetPin(GREENLED)){
-					GResetPin(GREENLED);
-				}
-				else {
-					GSetPin(GREENLED);
-				}
-			}
-			if(tdlt(ledtimeR)==500){
-				ledtimeR=getssec();
-				if (GGetPin(REDLED)){
-					GResetPin(REDLED);
-				}
-				else {
-					GSetPin(REDLED);
-				}
-			}
-			if(tdlt(ledtimeB)==800){
-				ledtimeB=getssec();
-				if (GGetPin(BLUELED)){
+				case 1:
+					if (tdlt(lighttime)<=600){
+					if (GGetPin(BLUELED)){
 					GResetPin(BLUELED);
 				}
 				else {
 					GSetPin(BLUELED);
 				}
-			}*/
-		/*	switch(counter){
-							case 0:
-								GResetPin(GREENLED);
-								GResetPin(REDLED);
-								GResetPin(BLUELED);
-								GSetPin(GREENLED);
-								counter++;
-								
-								break;
-							case 1:
-								GResetPin(GREENLED);
-								GResetPin(REDLED);
-								GResetPin(BLUELED);
-								GSetPin(REDLED);
-								counter++;
-								break;
-							case 2:
-								GResetPin(GREENLED);
-								GResetPin(REDLED);
-								GResetPin(BLUELED);
-								GSetPin(BLUELED);
-								counter=0;
-								break;
-						}*/
+			  }
+				
+				if (tdlt(lighttime)>=1200){
+ 					lighttime = getssec();
+					if (GGetPin(REDLED)){
+					GResetPin(REDLED);
+				}
+				else {
+					GSetPin(REDLED);
+				}
+			  }
+				break;
+				
+				case 2:
+					if (tdlt(lighttime)<=800){
+					if (GGetPin(GREENLED)){
+					GResetPin(GREENLED);
+				}
+				else {
+					GSetPin(GREENLED);
+				}
+				}
+				
+				if (tdlt(lighttime)>=800 && tdlt(lighttime)<=2000){
+					if (GGetPin(BLUELED)){
+					GResetPin(BLUELED);
+				}
+				else {
+					GSetPin(BLUELED);
+				}
+			  }
+				
+				if (tdlt(lighttime)>=2000){
+ 					lighttime = getssec();
+					if (GGetPin(REDLED)){
+					GResetPin(REDLED);
+				}
+				else {
+					GSetPin(REDLED);
+				}
+			  }
+				break;
+				
+			}
+			
 		}
 			if (GGetPin(BUTTON) == 0){
 				if (flag){
@@ -291,33 +293,20 @@ int main() {
 						fire = false;
 					}
 					else{
-					fire = true;
+					switch (litghtType){
+						case 0:
+							litghtType++;
 						
-					/*	switch(tdlt(ledtimeR)%3){
-							case 0:
-								GResetPin(GREENLED);
-								GResetPin(REDLED);
-								GResetPin(BLUELED);
-								GSetPin(GREENLED);
-								ledtimeR=getssec();
-								
-								break;
-							case 1:
-								GResetPin(GREENLED);
-								GResetPin(REDLED);
-								GResetPin(BLUELED);
-								GSetPin(REDLED);
-								ledtimeR=getssec();
-								break;
-							case 2:
-								GResetPin(GREENLED);
-								GResetPin(REDLED);
-								GResetPin(BLUELED);
-								GSetPin(BLUELED);
-								ledtimeR=getssec();
-								break;
-						}*/
-					
+							break;
+						case 1:
+							
+						litghtType++;
+							break;
+						case 2:
+							
+						litghtType = 0;
+							break;
+					}
 						
 						
 						
@@ -327,24 +316,7 @@ int main() {
 			}
 				
 					
-		/*	switch(){
-				case 0:
-					ledtime1=getsec();
-					flag = false;
-					GSetPin(REDLED);
-					 if (tdlt(ledtime2 - ledtime1)>=1000){
-						flag = true;
-					}
-					break;
-				case 1:
-					ledtime2=getsec();
-					if (flag){
-					GResetPin(GREENLED);
-					GResetPin(REDLED);
-					GResetPin(BLUELED);
-					}
-					break;
-			}*/
+		
    
 		
 		
